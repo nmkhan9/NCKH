@@ -1,12 +1,17 @@
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+def load_pic(img):
+    img = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
+    return img.astype(np.float32)/255
+img=loat_pic('pixel.jpg')
+img_missing=load_pic('pixel_missing.png')
 def frob_norm(A):
     return np.linalg.norm(A, ord="fro")
 
-
 def svt_solver(M, mask, tol=1e-4, delta=None, tau=None, n_iters=500):
-    """
-    The Singular Value Thresholding solver.
-    The primary paper is https://arxiv.org/pdf/0810.3286.pdf
-    """
     # Kiểm tra nếu không có vùng quan sát
     if np.sum(mask) == 0:
         raise ValueError("Mask không chứa vị trí quan sát nào (toàn bộ là NaN)")
@@ -45,3 +50,4 @@ def svt_solver(M, mask, tol=1e-4, delta=None, tau=None, n_iters=500):
             break
 
     return X
+
